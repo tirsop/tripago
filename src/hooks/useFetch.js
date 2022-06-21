@@ -2,16 +2,19 @@ import { useState, useEffect } from "react"
 
 export const useFetch = (url) => {
   const [data, setData] = useState(null)
+  const [isPending, setIsPending] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsPending(true)
       const res = await fetch(url)
       const json = await res.json()
+      setIsPending(false)
       setData(json)
     }
     fetchData() // call/initialize the function
 
   }, [url])
 
-  return { data } // hooks always return arrays or objects
+  return { data, isPending } // hooks always return arrays or objects
 }
